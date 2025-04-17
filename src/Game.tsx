@@ -69,9 +69,15 @@ export default function Game() {
           {userGuess && (
             <div>
               {isCorrect ? (
-                <p style={{ color: "green" }}>Correct! 🎉</p>
+                <p style={{ color: "green" }}>{current.char} is correct! 🎉</p>
               ) : (
-                <p style={{ color: "red" }}>Incorrect! ❌</p>
+                <>
+                  <p style={{ color: "red" }}>{userGuess} is not correct!</p>
+                  <p style={{ color: "red" }}>
+                    The sequence <code>{current.code}</code> represents{" "}
+                    {current.char}
+                  </p>
+                </>
               )}
             </div>
           )}
