@@ -30,6 +30,9 @@ export const morseList: MorseEntry[] = [
   { char: "X", code: "-..-" },
   { char: "Y", code: "-.--" },
   { char: "Z", code: "--.." },
+  { char: "Æ", code: ".-.-" },
+  { char: "Ø", code: "---." },
+  { char: "Å", code: ".--.-" },
   // { char: "1", code: ".----" },
   // { char: "2", code: "..---" },
   // { char: "3", code: "...--" },
@@ -40,7 +43,4 @@ export const morseList: MorseEntry[] = [
   // { char: "8", code: "---.." },
   // { char: "9", code: "----." },
   // { char: "0", code: "-----" },
-  { char: "Æ", code: ".-.-" },
-  { char: "Ø", code: "---." },
-  { char: "Å", code: ".--.-" },
 ];
