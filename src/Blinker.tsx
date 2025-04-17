@@ -1,0 +1,45 @@
+// Blinker.tsx
+import { useEffect, useState } from "react";
+import styles from "./Blinker.module.css";
+
+type Props = {
+  code: string;
+  onDone?: () => void;
+};
+
+const UNIT = 300; // ms, base unit for Morse timing
+
+export default function Blinker({ code, onDone }: Props) {
+  const [isOn, setIsOn] = useState(false);
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    if (!code || index >= code.length) {
+      onDone?.();
+      return;
+    }
+
+    const symbol = code[index];
+    const isDash = symbol === "-";
+
+    setIsOn(true);
+    const onTime = isDash ? UNIT * 3 : UNIT;
+    const offTime = UNIT;
+
+    const timer = setTimeout(() => {
+      setIsOn(false);
+
+      setTimeout(() => {
+        setIndex((i) => i + 1);
+      }, offTime);
+    }, onTime);
+
+    return () => clearTimeout(timer);
+  }, [index, code, onDone]);
+
+  return (
+    <div className={styles.container}>
+      <div className={`${styles.light} ${isOn ? styles.on : ""}`} />
+    </div>
+  );
+}
