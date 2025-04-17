@@ -1,7 +1,7 @@
-import "./App.css";
+import "./App.module.css";
 
 function App() {
-  return <h1>Morse Trainer</h1>;
+  return <h2>Morse Trainer</h2>;
 }
 
 export default App;
