@@ -1,18 +1,7 @@
-import { useState } from "react";
 import styles from "./App.module.css";
-import Blinker from "./Blinker";
-import { morseList } from "./morseCodes";
+import Game from "./Game";
 
-export default function App() {
-  const [current, setCurrent] = useState(() => morseList[0]);
-  const [showBlinker, setShowBlinker] = useState(false);
-
-  const play = () => {
-    const random = morseList[Math.floor(Math.random() * morseList.length)];
-    console.log("displaying", random.char);
-    setCurrent(random);
-    setShowBlinker(true);
-  };
+function App() {
   return (
     <div className={styles.app}>
       <header className={styles.appHeader}>
@@ -20,16 +9,10 @@ export default function App() {
       </header>
 
       <main>
-        <button className={styles.morseButton} onClick={play}>
-          Play Morse Code
-        </button>
-
-        {showBlinker ? (
-          <Blinker code={current.code} onDone={() => setShowBlinker(false)} />
-        ) : (
-          <p>Guess the character!</p>
-        )}
+        <Game />
       </main>
     </div>
   );
 }
+
+export default App;
