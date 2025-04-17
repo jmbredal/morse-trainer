@@ -2,23 +2,27 @@ import { useState } from "react";
 import styles from "./Game.module.css";
 import { morseList } from "./morseCodes";
 import { Blinker } from "./Blinker";
+import Fireworks from "react-canvas-confetti/dist/presets/fireworks";
 
 export default function Game() {
+  const [current, setCurrent] = useState(() => morseList[0]);
   const [showBlinker, setShowBlinker] = useState(false);
   const [options, setOptions] = useState<string[]>([]);
   const [userGuess, setUserGuess] = useState<string | null>(null);
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
-
-  const [current, setCurrent] = useState(() => morseList[0]);
+  const [confetti, setConfetti] = useState(false);
 
   // Pick a random Morse code entry from the list
   const play = () => {
     const randomMorse = morseList[Math.floor(Math.random() * morseList.length)];
+    console.log(randomMorse.char);
+
     setCurrent(randomMorse);
     setShowBlinker(true);
     setIsCorrect(null); // Reset correctness for next round
     setUserGuess(null); // Reset guess
     setOptions(generateOptions(randomMorse));
+    setConfetti(false); // Reset confetti before next round
   };
 
   // Generate three options, with one correct answer
@@ -38,7 +42,12 @@ export default function Game() {
   // Handle the user's guess
   const handleGuess = (guess: string) => {
     setUserGuess(guess);
-    setIsCorrect(guess === current.char);
+    const correct = guess === current.char;
+    setIsCorrect(correct);
+
+    if (correct) {
+      setConfetti(true); // Show confetti on correct answer
+    }
   };
 
   return (
@@ -83,6 +92,8 @@ export default function Game() {
           )}
         </div>
       )}
+
+      {confetti && <Fireworks autorun={{ speed: 3, duration: 1 }} />}
     </>
   );
 }
