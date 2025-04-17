@@ -24,3 +24,7 @@
 .morseButton:focus-visible {
   box-shadow: 0 0 0 2px #4fc3f7, 0 0 10px #4fc3f7;
 }
+
+.hidden {
+  visibility: hidden;
+}

@@ -3,6 +3,7 @@ import styles from "./Game.module.css";
 import { morseList } from "./morseCodes";
 import { Blinker } from "./Blinker";
 import Fireworks from "react-canvas-confetti/dist/presets/fireworks";
+import clsx from "clsx";
 
 export default function Game() {
   const [current, setCurrent] = useState(() => morseList[0]);
@@ -11,12 +12,16 @@ export default function Game() {
   const [userGuess, setUserGuess] = useState<string | null>(null);
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
   const [confetti, setConfetti] = useState(false);
+  const [hasPlayed, setHasPlayed] = useState(false);
+
+  const isAnswering = hasPlayed && !showBlinker;
 
   // Pick a random Morse code entry from the list
   const play = () => {
     const randomMorse = morseList[Math.floor(Math.random() * morseList.length)];
     console.log(randomMorse.char);
 
+    setHasPlayed(true);
     setCurrent(randomMorse);
     setShowBlinker(true);
     setIsCorrect(null); // Reset correctness for next round
@@ -42,17 +47,24 @@ export default function Game() {
   // Handle the user's guess
   const handleGuess = (guess: string) => {
     setUserGuess(guess);
+    setHasPlayed(true);
     const correct = guess === current.char;
     setIsCorrect(correct);
 
     if (correct) {
       setConfetti(true); // Show confetti on correct answer
+      setTimeout(() => {
+        setHasPlayed(false);
+      }, 3000);
     }
   };
 
   return (
     <>
-      <button className={styles.morseButton} onClick={play}>
+      <button
+        className={clsx(styles.morseButton, hasPlayed && styles.hidden)}
+        onClick={play}
+      >
         Play Morse Code
       </button>
 
@@ -60,10 +72,11 @@ export default function Game() {
         <Blinker code={current.code} onDone={() => setShowBlinker(false)} />
       )}
 
-      {!showBlinker && (
+      {isAnswering && (
         <div>
           <p>Guess the character!</p>
-          <div>
+
+          <div className={styles.choices}>
             {options.map((option) => (
               <button
                 key={option}
