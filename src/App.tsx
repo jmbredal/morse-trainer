@@ -1,7 +1,17 @@
-import "./App.module.css";
+import styles from "./App.module.css";
 
-function App() {
-  return <h2>Morse Trainer</h2>;
+export default function App() {
+  return (
+    <div className={styles.app}>
+      <header className={styles.appHeader}>
+        <h1>Morse Code Practice</h1>
+      </header>
+
+      <main className={styles.appMain}>
+        <p>Let's start practicing!</p>
+
+        <div className={styles.card}>asd</div>
+      </main>
+    </div>
+  );
 }
-
-export default App;
