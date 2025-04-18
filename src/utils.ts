@@ -1,15 +1,15 @@
-import { morseList } from "./morseCodes";
+import { MorseEntry, morseList } from "./morseCodes";
 
 // Generate three options, with one correct answer
-export function generateOptions(correct: string) {
-  const randomOptions = new Set<string>();
-  randomOptions.add(correct);
+export function generateChoices(correct: MorseEntry) {
+  const randomChoices = new Set<MorseEntry>();
+  randomChoices.add(correct);
 
-  while (randomOptions.size < 3) {
-    const randomOption =
-      morseList[Math.floor(Math.random() * morseList.length)].char;
-    randomOptions.add(randomOption);
+  while (randomChoices.size < 3) {
+    const randomChoice =
+      morseList[Math.floor(Math.random() * morseList.length)];
+    randomChoices.add(randomChoice);
   }
 
-  return [...randomOptions];
+  return [...randomChoices];
 }

@@ -5,7 +5,7 @@ import { playTone } from "./audioUtils";
 import { MorseEntry } from "./morseCodes";
 
 type Props = {
-  code?: MorseEntry;
+  code: MorseEntry;
   onDone: () => void;
 };
 
@@ -16,12 +16,6 @@ export function Blinker({ code, onDone }: Props) {
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
-    setIndex(0);
-  }, [code]);
-
-  useEffect(() => {
-    if (!code) return;
-
     if (index >= code.sequence.length) {
       onDone();
       return;

@@ -1,21 +1,18 @@
 import Button from "./Button";
 import styles from "./Choices.module.css";
 import { MorseEntry } from "./morseCodes";
-import { generateOptions } from "./utils";
 
 type Props = {
-  correct: MorseEntry;
+  choices: MorseEntry[];
   handleGuess: (option: string) => void;
 };
 
-export default function Choices({ correct, handleGuess }: Props) {
-  const options = generateOptions(correct.char);
-
+export default function Choices({ choices, handleGuess }: Props) {
   return (
     <div className={styles.choices}>
-      {options.map((option) => (
-        <Button key={option} onClick={() => handleGuess(option)}>
-          {option}
+      {choices.map((choice) => (
+        <Button key={choice.char} onClick={() => handleGuess(choice.char)}>
+          {choice.char}
         </Button>
       ))}
     </div>
