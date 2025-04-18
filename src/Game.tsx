@@ -8,24 +8,22 @@ import { MorseEntry, morseList } from "./morseCodes";
 import Result from "./Result";
 
 export default function Game() {
-  const [current, setCurrent] = useState<MorseEntry>(morseList[0]);
+  const [current, setCurrent] = useState<MorseEntry>();
   const [guessing, setGuessing] = useState(false);
   const [userGuess, setUserGuess] = useState<string | null>(null);
   const [confetti, setConfetti] = useState(false);
-  const [disabled, setDisabled] = useState(true);
 
   function reset() {
     setGuessing(false);
     setUserGuess(null);
     setConfetti(false);
-    setDisabled(false);
   }
 
   function play() {
     reset();
 
     // const index = Math.floor(Math.random() * morseList.length);
-    const index = 4;
+    const index = 1;
     console.log(morseList[index].char);
     setCurrent({ ...morseList[index] });
   }
@@ -37,7 +35,7 @@ export default function Game() {
   function handleGuess(guess: string) {
     setUserGuess(guess);
 
-    if (guess === current.char) {
+    if (guess === current?.char) {
       setConfetti(true);
     }
   }
@@ -45,10 +43,15 @@ export default function Game() {
   return (
     <section className={styles.gameContainer}>
       <Button onClick={play}>Play a code</Button>
-      <Blinker code={current} onDone={onBlinkerDone} disabled={disabled} />
 
-      {guessing && <Choices correct={current} handleGuess={handleGuess} />}
-      {userGuess && <Result morseEntry={current} guess={userGuess} />}
+      {current && <Blinker code={current} onDone={onBlinkerDone} />}
+
+      {current && guessing && (
+        <Choices correct={current} handleGuess={handleGuess} />
+      )}
+      {current && userGuess && (
+        <Result morseEntry={current} guess={userGuess} />
+      )}
       {confetti && <Fireworks autorun={{ speed: 3, duration: 1 }} />}
     </section>
   );

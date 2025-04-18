@@ -7,12 +7,11 @@ import { MorseEntry } from "./morseCodes";
 type Props = {
   code?: MorseEntry;
   onDone: () => void;
-  disabled: boolean;
 };
 
 const UNIT = 300; // ms, base unit for Morse timing
 
-export function Blinker({ code, onDone, disabled }: Props) {
+export function Blinker({ code, onDone }: Props) {
   const [isOn, setIsOn] = useState(false);
   const [index, setIndex] = useState(0);
 
@@ -21,13 +20,10 @@ export function Blinker({ code, onDone, disabled }: Props) {
   }, [code]);
 
   useEffect(() => {
-    console.log("blinker", code);
-
-    if (!code || disabled) return;
+    if (!code) return;
 
     if (index >= code.sequence.length) {
       onDone();
-      console.log("blinker done");
       return;
     }
 
@@ -48,7 +44,7 @@ export function Blinker({ code, onDone, disabled }: Props) {
     }, onTime);
 
     return () => clearTimeout(timer);
-  }, [index, code, onDone, disabled]);
+  }, [index, code, onDone]);
 
   return (
     <div className={styles.container}>
