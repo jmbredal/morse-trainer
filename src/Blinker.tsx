@@ -1,4 +1,3 @@
-// Blinker.tsx
 import { useEffect, useState } from "react";
 import styles from "./Blinker.module.css";
 import { playTone } from "./audioUtils";
@@ -10,20 +9,14 @@ type Props = {
 };
 
 const UNIT = 100; // ms, base unit for Morse timing
+const PAUSE = 100; // ms, base unit for Morse timing
 
 export function Blinker({ code, onDone }: Props) {
   const [isOn, setIsOn] = useState(false);
   const [index, setIndex] = useState(0);
-  const [prev, setPrev] = useState(code);
-
-  if (prev !== code) {
-    setIndex(0);
-    setPrev(code);
-  }
 
   useEffect(() => {
     if (index >= code.sequence.length) {
-      console.log("setting ready to false");
       onDone();
       return;
     }
@@ -33,7 +26,6 @@ export function Blinker({ code, onDone }: Props) {
 
     setIsOn(true);
     const onTime = isDash ? UNIT * 3 : UNIT;
-    const offTime = UNIT;
     playTone(onTime);
 
     const timer = setTimeout(() => {
@@ -41,7 +33,7 @@ export function Blinker({ code, onDone }: Props) {
 
       setTimeout(() => {
         setIndex((i) => i + 1);
-      }, offTime);
+      }, PAUSE);
     }, onTime);
 
     return () => clearTimeout(timer);

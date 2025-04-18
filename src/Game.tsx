@@ -13,6 +13,7 @@ export default function Game() {
   const [guessing, setGuessing] = useState(false);
   const [userGuess, setUserGuess] = useState<string | null>(null);
   const [confetti, setConfetti] = useState(false);
+  const [counter, setCounter] = useState(0);
   const [choices, setChoices] = useState<MorseEntry[]>([]);
 
   function reset() {
@@ -29,6 +30,7 @@ export default function Game() {
     console.log(entry.char);
     setCurrent(entry);
     setChoices(generateChoices(entry));
+    setCounter((prev) => prev + 1);
   }
 
   const onBlinkerDone = useCallback(() => {
@@ -49,7 +51,9 @@ export default function Game() {
     <section className={styles.gameContainer}>
       <Button onClick={play}>Play a code</Button>
 
-      {current && <Blinker code={current} onDone={onBlinkerDone} />}
+      {current && (
+        <Blinker key={counter} code={current} onDone={onBlinkerDone} />
+      )}
 
       {current && guessing && (
         <Choices choices={choices} handleGuess={handleGuess} />
