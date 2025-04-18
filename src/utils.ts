@@ -11,5 +11,21 @@ export function generateChoices(correct: MorseEntry) {
     randomChoices.add(randomChoice);
   }
 
-  return [...randomChoices];
+  return shuffle([...randomChoices]);
 }
+
+function shuffle<T>(array: T[]) {
+  return array
+    .map((value) => ({ value, sort: Math.random() }))
+    .sort((a, b) => a.sort - b.sort)
+    .map(({ value }) => value);
+}
+
+// function shuffle2<T>(array: T[]): T[] {
+//   const copy = [...array];
+//   for (let i = copy.length - 1; i > 0; i--) {
+//     const j = Math.floor(Math.random() * (i + 1));
+//     [copy[i], copy[j]] = [copy[j], copy[i]];
+//   }
+//   return copy;
+// }
