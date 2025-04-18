@@ -1,5 +1,13 @@
 let audioContext: AudioContext | null = null;
 
+document.body.addEventListener(
+  "click",
+  () => {
+    getAudioContext().resume();
+  },
+  { once: true }
+);
+
 export function getAudioContext(): AudioContext {
   if (!audioContext) {
     audioContext = new AudioContext();
