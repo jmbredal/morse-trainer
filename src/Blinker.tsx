@@ -9,7 +9,7 @@ type Props = {
   onDone: () => void;
 };
 
-const UNIT = 300; // ms, base unit for Morse timing
+const UNIT = 100; // ms, base unit for Morse timing
 
 export function Blinker({ code, onDone }: Props) {
   const [isOn, setIsOn] = useState(false);

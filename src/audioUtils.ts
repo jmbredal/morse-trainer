@@ -1,22 +1,24 @@
-// audioUtils.ts
-export const playTone = (duration: number, frequency = 600) => {
-  const context = new (window.AudioContext ||
-    (window as any).webkitAudioContext)();
+let audioContext: AudioContext | null = null;
+
+export function getAudioContext(): AudioContext {
+  if (!audioContext) {
+    audioContext = new AudioContext();
+  }
+  return audioContext;
+}
+
+export function playTone(duration: number, frequency = 800) {
+  const context = getAudioContext();
   const oscillator = context.createOscillator();
   const gainNode = context.createGain();
 
   oscillator.connect(gainNode);
   gainNode.connect(context.destination);
+  gainNode.gain.value = 0.5;
+  gainNode.connect(context.destination);
 
-  oscillator.type = "square"; // or 'square' for a harsher tone
+  oscillator.type = "sine";
   oscillator.frequency.value = frequency;
-
   oscillator.start();
-  gainNode.gain.setValueAtTime(1, context.currentTime);
-  gainNode.gain.exponentialRampToValueAtTime(
-    0.00001,
-    context.currentTime + duration / 1000
-  );
-
   oscillator.stop(context.currentTime + duration / 1000);
-};
+}

@@ -25,8 +25,7 @@ export default function Game() {
   function play() {
     reset();
 
-    // const index = Math.floor(Math.random() * morseList.length);
-    const index = 0;
+    const index = Math.floor(Math.random() * morseList.length);
     const entry = { ...morseList[index] };
     console.log(entry.char);
     setCurrent(entry);
