@@ -1,4 +1,5 @@
 import { MorseEntry } from "./morseCodes";
+import styles from "./Result.module.css";
 
 type Props = {
   morseEntry: MorseEntry;
@@ -9,7 +10,7 @@ export default function Result({ morseEntry, guess }: Props) {
   const isCorrect = morseEntry.char === guess;
 
   return (
-    <div>
+    <div className={styles.resultContainer}>
       {isCorrect ? (
         <p style={{ color: "green" }}>{guess} is correct! 🎉</p>
       ) : (
