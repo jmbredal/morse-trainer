@@ -1,112 +1,55 @@
 import { useState } from "react";
-import styles from "./Game.module.css";
-import { morseList } from "./morseCodes";
-import { Blinker } from "./Blinker";
 import Fireworks from "react-canvas-confetti/dist/presets/fireworks";
-import clsx from "clsx";
+import { Blinker } from "./Blinker";
+import Button from "./Button";
+import Choices from "./Choices";
+import styles from "./Game.module.css";
+import { MorseEntry, morseList } from "./morseCodes";
+import Result from "./Result";
 
 export default function Game() {
-  const [current, setCurrent] = useState(() => morseList[0]);
-  const [showBlinker, setShowBlinker] = useState(false);
-  const [options, setOptions] = useState<string[]>([]);
+  const [current, setCurrent] = useState<MorseEntry>(morseList[0]);
+  const [guessing, setGuessing] = useState(false);
   const [userGuess, setUserGuess] = useState<string | null>(null);
-  const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
   const [confetti, setConfetti] = useState(false);
-  const [hasPlayed, setHasPlayed] = useState(false);
+  const [disabled, setDisabled] = useState(true);
 
-  const isAnswering = hasPlayed && !showBlinker;
+  function reset() {
+    setGuessing(false);
+    setUserGuess(null);
+    setConfetti(false);
+    setDisabled(false);
+  }
 
-  // Pick a random Morse code entry from the list
-  const play = () => {
-    const randomMorse = morseList[Math.floor(Math.random() * morseList.length)];
-    console.log(randomMorse.char);
+  function play() {
+    reset();
 
-    setHasPlayed(true);
-    setCurrent(randomMorse);
-    setShowBlinker(true);
-    setIsCorrect(null); // Reset correctness for next round
-    setUserGuess(null); // Reset guess
-    setOptions(generateOptions(randomMorse));
-    setConfetti(false); // Reset confetti before next round
-  };
+    // const index = Math.floor(Math.random() * morseList.length);
+    const index = 4;
+    console.log(morseList[index].char);
+    setCurrent({ ...morseList[index] });
+  }
 
-  // Generate three options, with one correct answer
-  const generateOptions = (correct: { char: string }) => {
-    const randomOptions = new Set<string>();
-    randomOptions.add(correct.char);
+  function onBlinkerDone() {
+    setGuessing(true);
+  }
 
-    while (randomOptions.size < 3) {
-      const randomOption =
-        morseList[Math.floor(Math.random() * morseList.length)].char;
-      randomOptions.add(randomOption);
-    }
-
-    return [...randomOptions];
-  };
-
-  // Handle the user's guess
-  const handleGuess = (guess: string) => {
+  function handleGuess(guess: string) {
     setUserGuess(guess);
-    setHasPlayed(true);
-    const correct = guess === current.char;
-    setIsCorrect(correct);
 
-    if (correct) {
-      setConfetti(true); // Show confetti on correct answer
-      setTimeout(() => {
-        setHasPlayed(false);
-      }, 3000);
+    if (guess === current.char) {
+      setConfetti(true);
     }
-  };
+  }
 
   return (
-    <>
-      <button
-        className={clsx(styles.morseButton, hasPlayed && styles.hidden)}
-        onClick={play}
-      >
-        Play Morse Code
-      </button>
+    <section className={styles.gameContainer}>
+      <Button onClick={play}>Play a code</Button>
+      <Blinker code={current} onDone={onBlinkerDone} disabled={disabled} />
 
-      {showBlinker && (
-        <Blinker code={current.code} onDone={() => setShowBlinker(false)} />
-      )}
-
-      {isAnswering && (
-        <div>
-          <p>Guess the character!</p>
-
-          <div className={styles.choices}>
-            {options.map((option) => (
-              <button
-                key={option}
-                className={styles.morseButton}
-                onClick={() => handleGuess(option)}
-              >
-                {option}
-              </button>
-            ))}
-          </div>
-
-          {userGuess && (
-            <div>
-              {isCorrect ? (
-                <p style={{ color: "green" }}>{current.char} is correct! 🎉</p>
-              ) : (
-                <>
-                  <p style={{ color: "red" }}>{userGuess} is not correct!</p>
-                  <p style={{ color: "red" }}>
-                    The sequence <code>{current.code}</code> represents{" "}
-                    {current.char}
-                  </p>
-                </>
-              )}
-            </div>
-          )}
-        </div>
-      )}
-
+      {guessing && <Choices correct={current} handleGuess={handleGuess} />}
+      {userGuess && <Result morseEntry={current} guess={userGuess} />}
       {confetti && <Fireworks autorun={{ speed: 3, duration: 1 }} />}
-    </>
+    </section>
   );
 }

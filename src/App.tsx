@@ -8,7 +8,7 @@ function App() {
         <h1>Morse Code Practice</h1>
       </header>
 
-      <main>
+      <main className={styles.appMain}>
         <Game />
       </main>
     </div>
