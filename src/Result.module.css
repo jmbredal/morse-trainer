@@ -2,4 +2,11 @@
   p {
     text-align: center;
   }
+
+  .correct {
+    color: green;
+  }
+
+  .inCorrect { color: red;}
+
 }

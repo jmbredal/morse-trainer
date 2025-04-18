@@ -12,9 +12,9 @@ export default function Result({ morseEntry, guess }: Props) {
   return (
     <div className={styles.resultContainer}>
       {isCorrect ? (
-        <p style={{ color: "green" }}>{guess} is correct! 🎉</p>
+        <p className={styles.correct}>{guess} is correct! 🎉</p>
       ) : (
-        <p style={{ color: "red" }}>
+        <p className={styles.inCorrect}>
           The answer for <code>{morseEntry.sequence}</code> is {morseEntry.char}
         </p>
       )}
