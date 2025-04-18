@@ -21,6 +21,21 @@ function shuffle<T>(array: T[]) {
     .map(({ value }) => value);
 }
 
+export function getRandom(size: number) {
+  return Math.floor(Math.random() * size);
+}
+
+export function getRandomMorseEntry() {
+  return { ...morseList[getRandom(morseList.length)] };
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function compose(...fns: any[]) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return (initialValue: any) =>
+    fns.reduceRight((prev, fn) => fn(prev), initialValue);
+}
+
 // function shuffle2<T>(array: T[]): T[] {
 //   const copy = [...array];
 //   for (let i = copy.length - 1; i > 0; i--) {
