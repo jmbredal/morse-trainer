@@ -4,9 +4,9 @@ import { Blinker } from "./Blinker";
 import Button from "./Button";
 import Choices from "./Choices";
 import styles from "./Game.module.css";
-import { MorseEntry, morseList } from "./morseCodes";
+import { MorseEntry } from "./morseCodes";
 import Result from "./Result";
-import { generateChoices } from "./utils";
+import { generateChoices, getRandomMorseEntry } from "./utils";
 
 export default function Game() {
   const [current, setCurrent] = useState<MorseEntry>();
@@ -25,16 +25,14 @@ export default function Game() {
   function play() {
     reset();
 
-    const index = Math.floor(Math.random() * morseList.length);
-    const entry = { ...morseList[index] };
-    console.log(entry.char);
+    const entry = getRandomMorseEntry();
     setCurrent(entry);
     setChoices(generateChoices(entry));
+
     setCounter((prev) => prev + 1);
   }
 
   const onBlinkerDone = useCallback(() => {
-    console.log("onBlinkerDone");
     setGuessing(true);
   }, []);
 
