@@ -14,9 +14,7 @@ export default function Result({ morseEntry, guess }: Props) {
       {isCorrect ? (
         <p className={styles.correct}>{guess} is correct! 🎉</p>
       ) : (
-        <p className={styles.inCorrect}>
-          The answer for <code>{morseEntry.sequence}</code> is {morseEntry.char}
-        </p>
+        <p className={styles.inCorrect}>Correct answer is {morseEntry.char}</p>
       )}
     </div>
   );
