@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import Fireworks from "react-canvas-confetti/dist/presets/fireworks";
 import { Blinker } from "./Blinker";
 import Button from "./Button";
@@ -14,7 +14,6 @@ export default function Game() {
   const [userGuess, setUserGuess] = useState<string | null>(null);
   const [confetti, setConfetti] = useState(false);
   const [choices, setChoices] = useState<MorseEntry[]>([]);
-  const [showBlinker, setShowBlinker] = useState(false);
 
   function reset() {
     setGuessing(false);
@@ -29,14 +28,13 @@ export default function Game() {
     const entry = { ...morseList[index] };
     console.log(entry.char);
     setCurrent(entry);
-    setShowBlinker(true);
     setChoices(generateChoices(entry));
   }
 
-  function onBlinkerDone() {
-    setShowBlinker(false);
+  const onBlinkerDone = useCallback(() => {
+    console.log("onBlinkerDone");
     setGuessing(true);
-  }
+  }, []);
 
   function handleGuess(guess: string) {
     setUserGuess(guess);
@@ -51,9 +49,7 @@ export default function Game() {
     <section className={styles.gameContainer}>
       <Button onClick={play}>Play a code</Button>
 
-      {showBlinker && current && (
-        <Blinker code={current} onDone={onBlinkerDone} />
-      )}
+      {current && <Blinker code={current} onDone={onBlinkerDone} />}
 
       {current && guessing && (
         <Choices choices={choices} handleGuess={handleGuess} />
