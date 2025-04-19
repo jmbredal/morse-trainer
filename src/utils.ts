@@ -32,6 +32,10 @@ export function getRandomMorseEntry() {
   return { ...morseList[getRandom(morseList.length)] };
 }
 
+export function getMorseEntry(char: string) {
+  return morseList.find((e) => e.char === char);
+}
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function compose(...fns: any[]) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

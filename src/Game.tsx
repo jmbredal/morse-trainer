@@ -27,9 +27,8 @@ export default function Game() {
 
     const entry = getRandomMorseEntry();
     setCurrent(entry);
-    setChoices(generateChoices(entry));
-
     setCounter((prev) => prev + 1);
+    setChoices(generateChoices(entry));
   }
 
   const onTelegraphDone = useCallback(() => {

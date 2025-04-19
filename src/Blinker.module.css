@@ -5,10 +5,6 @@
   align-items: center;
 
   margin-top: 1rem;
-
-  .sequence {
-    font-size: 38px;
-  }
 }
 
 .light {
@@ -16,7 +12,7 @@
   height: 60px;
   border-radius: 50%;
   background-color: #333;
-  transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  transition: background-color 0.1s ease-in-out, box-shadow 0.1s ease-in-out;
 }
 
 .on {

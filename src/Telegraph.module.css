@@ -1,0 +1,6 @@
+.symbolList {
+  font-size: 38px;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
