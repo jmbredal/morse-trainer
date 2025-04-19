@@ -1,11 +1,11 @@
 import { useCallback, useState } from "react";
 import Fireworks from "react-canvas-confetti/dist/presets/fireworks";
-import { Blinker } from "./Blinker";
 import Button from "./Button";
 import Choices from "./Choices";
 import styles from "./Game.module.css";
 import { MorseEntry } from "./morseCodes";
 import Result from "./Result";
+import { Telegraph } from "./Telegraph";
 import { generateChoices, getRandomMorseEntry } from "./utils";
 
 export default function Game() {
@@ -32,7 +32,7 @@ export default function Game() {
     setCounter((prev) => prev + 1);
   }
 
-  const onBlinkerDone = useCallback(() => {
+  const onTelegraphDone = useCallback(() => {
     setGuessing(true);
   }, []);
 
@@ -50,7 +50,7 @@ export default function Game() {
       <Button onClick={play}>Play a code</Button>
 
       {current && (
-        <Blinker key={counter} code={current} onDone={onBlinkerDone} />
+        <Telegraph key={counter} text={current.char} onDone={onTelegraphDone} />
       )}
 
       {current && guessing && (
