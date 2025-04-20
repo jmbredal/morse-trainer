@@ -1,5 +1,6 @@
 .choices {
   display: flex;
+  gap: 1rem;
 
   button {
     flex: 1;

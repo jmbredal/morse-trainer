@@ -1,14 +1,13 @@
 import { useEffect, useState } from "react";
 import styles from "./Blinker.module.css";
 import { playTone } from "./audioUtils";
+import { UNIT } from "./Telegraph";
 
 type Props = {
   symbol?: string;
   onDone: () => void;
   blink: boolean;
 };
-
-const UNIT = 100;
 
 export function Blinker({ symbol, onDone, blink }: Props) {
   const [isOn, setIsOn] = useState(false);

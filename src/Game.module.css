@@ -1,7 +1,39 @@
 .gameContainer {
+  position: relative;
   display: flex;
   flex-direction: column;
+  gap: .5rem;
 
   height: 300px;
   width: 300px;
+}
+
+.checkboxes {
+  display: flex;
+  justify-content: space-between;
+   
+  label {
+    flex: 1;
+    text-align: center;
+  }
+}
+
+.selectionList {
+  display: flex; 
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: .5rem; 
+}
+
+.correct {
+  animation: fade 1.5s forwards;
+  font-size: 32px;
+  position: absolute;
+  top: 170px;
+  left: 40px;
+}
+
+@keyframes fade {
+  from {opacity: 1;}
+  to {opacity: 0;}
 }

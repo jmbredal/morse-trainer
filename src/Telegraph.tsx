@@ -8,7 +8,7 @@ type Props = {
   onDone: () => void;
 };
 
-const UNIT = 100;
+export const UNIT = 100;
 const PAUSE_BETWEEN_CHARS = UNIT * 3;
 
 export function Telegraph({ text, onDone }: Props) {

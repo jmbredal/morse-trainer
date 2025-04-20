@@ -1,34 +1,45 @@
-import { useCallback, useState } from "react";
-import Fireworks from "react-canvas-confetti/dist/presets/fireworks";
+import { useCallback, useEffect, useState } from "react";
 import Button from "./Button";
 import Choices from "./Choices";
 import styles from "./Game.module.css";
-import { MorseEntry } from "./morseCodes";
+import { MorseEntry, morseList } from "./morseCodes";
 import Result from "./Result";
 import { Telegraph } from "./Telegraph";
-import { generateChoices, getRandomMorseEntry } from "./utils";
+import { allOptions, generateChoices, getRandomMorseEntry } from "./utils";
 
 export default function Game() {
   const [current, setCurrent] = useState<MorseEntry>();
   const [guessing, setGuessing] = useState(false);
   const [userGuess, setUserGuess] = useState<string | null>(null);
-  const [confetti, setConfetti] = useState(false);
+  const [correct, setCorrect] = useState(false);
   const [counter, setCounter] = useState(0);
   const [choices, setChoices] = useState<MorseEntry[]>([]);
+  const [selected, setSelected] = useState([1, 2, 3]);
+
+  useEffect(() => {
+    if (!correct) return;
+    setTimeout(() => setCorrect(false), 1500);
+  }, [correct]);
 
   function reset() {
     setGuessing(false);
     setUserGuess(null);
-    setConfetti(false);
+    setUserGuess(null);
   }
 
   function play() {
     reset();
 
-    const entry = getRandomMorseEntry();
+    const entry = getRandomMorseEntry(selected);
     setCurrent(entry);
     setCounter((prev) => prev + 1);
-    setChoices(generateChoices(entry));
+    setChoices(generateChoices(entry, selected));
+  }
+
+  function onChange(event: React.FormEvent<HTMLFormElement>) {
+    const checkbox = event.target as HTMLElement;
+    const form = checkbox.closest("form")!;
+    setSelected(new FormData(form).getAll("selection").map((s) => +s));
   }
 
   const onTelegraphDone = useCallback(() => {
@@ -40,13 +51,41 @@ export default function Game() {
     setGuessing(false);
 
     if (guess === current?.char) {
-      setConfetti(true);
+      setCorrect(true);
+      play();
     }
   }
 
   return (
     <section className={styles.gameContainer}>
-      <Button onClick={play}>Play a code</Button>
+      <p>Select number of symbols to train on</p>
+
+      <form className={styles.checkboxes} onChange={onChange}>
+        {allOptions.map((o) => (
+          <label key={o.value}>
+            {o.label}{" "}
+            <input
+              type="checkbox"
+              name="selection"
+              value={o.value}
+              defaultChecked={selected.includes(o.value)}
+            />
+          </label>
+        ))}
+      </form>
+
+      <div className={styles.selectionList}>
+        {morseList
+          .filter((e) => selected.includes(e.sequence.length))
+          .sort((a, b) => a.char.localeCompare(b.char, "no"))
+          .map((e) => (
+            <span key={e.char}>{e.char}</span>
+          ))}
+      </div>
+
+      <Button onClick={play} disabled={selected.length === 0}>
+        Start
+      </Button>
 
       {current && (
         <Telegraph key={counter} text={current.char} onDone={onTelegraphDone} />
@@ -59,7 +98,7 @@ export default function Game() {
       {current && userGuess && (
         <Result morseEntry={current} guess={userGuess} />
       )}
-      {confetti && <Fireworks autorun={{ speed: 3, duration: 1 }} />}
+      {correct && <p className={styles.correct}>👍</p>}
     </section>
   );
 }
