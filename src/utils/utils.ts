@@ -1,10 +1,5 @@
 import { MorseEntry, morseList } from "../data/morseCodes";
 
-export type Option = {
-  label: string;
-  value: number;
-};
-
 export const allOptions = [
   {
     label: "1",

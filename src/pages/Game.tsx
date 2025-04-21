@@ -1,15 +1,13 @@
 import { useCallback, useEffect, useState } from "react";
 import Button from "../components/Button";
+import { MorseEntry } from "../data/morseCodes";
+import { generateChoices, getRandomMorseEntry } from "../utils/utils";
+import ActiveChars from "./ActiveChars";
 import Choices from "./Choices";
+import Filters from "./Filters";
 import styles from "./Game.module.css";
-import { MorseEntry, morseList } from "../data/morseCodes";
 import Result from "./Result";
 import { Telegraph } from "./Telegraph";
-import {
-  allOptions,
-  generateChoices,
-  getRandomMorseEntry,
-} from "../utils/utils";
 
 export default function Game() {
   const [current, setCurrent] = useState<MorseEntry>();
@@ -64,28 +62,8 @@ export default function Game() {
     <section className={styles.gameContainer}>
       <p>Select number of symbols to train on</p>
 
-      <form className={styles.checkboxes} onChange={onChange}>
-        {allOptions.map((o) => (
-          <label key={o.value}>
-            {o.label}{" "}
-            <input
-              type="checkbox"
-              name="selection"
-              value={o.value}
-              defaultChecked={selected.includes(o.value)}
-            />
-          </label>
-        ))}
-      </form>
-
-      <div className={styles.selectionList}>
-        {morseList
-          .filter((e) => selected.includes(e.sequence.length))
-          .sort((a, b) => a.char.localeCompare(b.char, "no"))
-          .map((e) => (
-            <span key={e.char}>{e.char}</span>
-          ))}
-      </div>
+      <Filters selected={selected} onChange={onChange} />
+      <ActiveChars selected={selected} />
 
       <Button onClick={play} disabled={selected.length === 0}>
         Start

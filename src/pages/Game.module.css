@@ -2,27 +2,10 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: .5rem;
+  gap: 0.5rem;
 
-  height: 300px;
+  height: 350px;
   width: 300px;
-}
-
-.checkboxes {
-  display: flex;
-  justify-content: space-between;
-   
-  label {
-    flex: 1;
-    text-align: center;
-  }
-}
-
-.selectionList {
-  display: flex; 
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: .5rem; 
 }
 
 .correct {
@@ -34,6 +17,10 @@
 }
 
 @keyframes fade {
-  from {opacity: 1;}
-  to {opacity: 0;}
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
 }
