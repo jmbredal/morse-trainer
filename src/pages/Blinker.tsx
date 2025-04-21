@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import styles from "./Blinker.module.css";
-import { playTone } from "./audioUtils";
+import { playTone } from "../utils/audioUtils";
 import { UNIT } from "./Telegraph";
 
 type Props = {

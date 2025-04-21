@@ -1,4 +1,4 @@
-import { MorseEntry, morseList } from "./morseCodes";
+import { MorseEntry, morseList } from "../data/morseCodes";
 
 export type Option = {
   label: string;

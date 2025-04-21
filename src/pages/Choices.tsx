@@ -1,6 +1,6 @@
-import Button from "./Button";
+import Button from "../components/Button";
 import styles from "./Choices.module.css";
-import { MorseEntry } from "./morseCodes";
+import { MorseEntry } from "../data/morseCodes";
 
 type Props = {
   choices: MorseEntry[];

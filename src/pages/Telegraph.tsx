@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import styles from "./Telegraph.module.css";
-import { getMorseEntry } from "./utils";
+import { getMorseEntry } from "../utils/utils";
 import { Blinker } from "./Blinker";
 
 type Props = {

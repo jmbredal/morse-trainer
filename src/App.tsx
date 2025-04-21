@@ -1,5 +1,5 @@
 import styles from "./App.module.css";
-import Game from "./Game";
+import Game from "./pages/Game";
 
 function App() {
   return (

@@ -1,11 +1,15 @@
 import { useCallback, useEffect, useState } from "react";
-import Button from "./Button";
+import Button from "../components/Button";
 import Choices from "./Choices";
 import styles from "./Game.module.css";
-import { MorseEntry, morseList } from "./morseCodes";
+import { MorseEntry, morseList } from "../data/morseCodes";
 import Result from "./Result";
 import { Telegraph } from "./Telegraph";
-import { allOptions, generateChoices, getRandomMorseEntry } from "./utils";
+import {
+  allOptions,
+  generateChoices,
+  getRandomMorseEntry,
+} from "../utils/utils";
 
 export default function Game() {
   const [current, setCurrent] = useState<MorseEntry>();
