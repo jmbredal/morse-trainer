@@ -17,16 +17,24 @@ export function getAudioContext(): AudioContext {
 
 export function playTone(duration: number, frequency = 800) {
   const context = getAudioContext();
-  const oscillator = context.createOscillator();
+
+  // The filter gets rid of the cracking and popping at the start and end of playback
+  const filter = context.createBiquadFilter();
+  filter.type = "bandpass";
+  filter.frequency.value = frequency;
+  filter.Q.value = 10;
+  filter.connect(context.destination);
+
   const gainNode = context.createGain();
-
-  oscillator.connect(gainNode);
-  gainNode.connect(context.destination);
+  gainNode.connect(filter);
   gainNode.gain.value = 0.5;
-  gainNode.connect(context.destination);
 
+  const oscillator = context.createOscillator();
+  oscillator.connect(gainNode);
   oscillator.type = "sine";
   oscillator.frequency.value = frequency;
-  oscillator.start();
-  oscillator.stop(context.currentTime + duration / 1000);
+
+  const now = context.currentTime;
+  oscillator.start(now);
+  oscillator.stop(now + duration / 1000);
 }
