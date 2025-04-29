@@ -1,4 +1,4 @@
-import { MorseEntry } from "./data/morseCodes";
+import type { MorseEntry } from "../data/morseCodes";
 import styles from "./Result.module.css";
 
 type Props = {
